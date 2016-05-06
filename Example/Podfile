@@ -2,6 +2,7 @@ use_frameworks!
 
 target 'SwiftJSBridge_Example', :exclusive => true do
   pod 'SwiftJSBridge', :path => '../'
+  pod 'ObjectMapper'
 end
 
 target 'SwiftJSBridge_Tests', :exclusive => true do
