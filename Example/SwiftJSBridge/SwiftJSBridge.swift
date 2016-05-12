@@ -46,6 +46,19 @@ public class SwiftJSBridge: NSObject {
         }
     }
     
+//    private func dataToString(data: AnyObject) -> String? {
+//        if NSJSONSerialization.isValidJSONObject(data) {
+//            do {
+//                let json = try NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
+//                return String(data: json, encoding: NSASCIIStringEncoding)
+//            } catch {
+//                print("SwiftJSBridge - dataToString : \(error)")
+//                return nil
+//            }
+//        }
+//        return nil
+//    }
+    
     // MARK: Public Methods
     public func addHandler(name: String, closure: HandlerClosure) {
         swiftHandlers[name] = closure
@@ -59,16 +72,18 @@ public class SwiftJSBridge: NSObject {
     
     public func callJSHandler(handler: HandlerInvocation, callback: HandlerClosure?) {
         var evaluation = handler.name
-//        evaluation += "(" + (handler.data ?? "") + ")"
-        if let data = handler.data {
-            if data is String {
-                evaluation += "(\"" + (data as! String) + "\")"
+        
+        if let temp = handler.data as? String {
+            evaluation += "(\"" + temp + "\")"
+        } else if let temp = handler.data as? Double {
+            if temp % 1 != 0 {
+                evaluation += String(format: "(\"%.9f\")", temp)
             } else {
-                evaluation += "(" + data.description ?? "" + ")"
-                evaluation = evaluation.stringByReplacingOccurrencesOfString(String("\""), withString: "\\\"")
-                
+                evaluation += String(format: "(\"%.0f\")", temp)
             }
-        } else {
+        } else if handler.data?.count > 0 {
+            evaluation += "(\(dataToString(handler.data!)!))"
+        }else {
             evaluation += "()"
         }
         print(evaluation)
