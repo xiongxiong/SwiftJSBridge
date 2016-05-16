@@ -46,19 +46,6 @@ public class SwiftJSBridge: NSObject {
         }
     }
     
-//    private func dataToString(data: AnyObject) -> String? {
-//        if NSJSONSerialization.isValidJSONObject(data) {
-//            do {
-//                let json = try NSJSONSerialization.dataWithJSONObject(data, options: NSJSONWritingOptions())
-//                return String(data: json, encoding: NSASCIIStringEncoding)
-//            } catch {
-//                print("SwiftJSBridge - dataToString : \(error)")
-//                return nil
-//            }
-//        }
-//        return nil
-//    }
-    
     // MARK: Public Methods
     public func addHandler(name: String, closure: HandlerClosure) {
         swiftHandlers[name] = closure
@@ -71,22 +58,7 @@ public class SwiftJSBridge: NSObject {
     }
     
     public func callJSHandler(handler: HandlerInvocation, callback: HandlerClosure?) {
-        var evaluation = handler.name
-        
-        if let temp = handler.data as? String {
-            evaluation += "(\"" + temp + "\")"
-        } else if let temp = handler.data as? Double {
-            if temp % 1 != 0 {
-                evaluation += String(format: "(\"%.9f\")", temp)
-            } else {
-                evaluation += String(format: "(\"%.0f\")", temp)
-            }
-        } else if handler.data?.count > 0 {
-            evaluation += "(\(dataToString(handler.data!)!))"
-        }else {
-            evaluation += "()"
-        }
-        print(evaluation)
+        let evaluation = handler.name + "(" + handler.data + ")"
         webView.evaluateJavaScript(evaluation) { (response: AnyObject?, error: NSError?) in
             if error != nil {
                 print("SwiftJSBridge - EvaluateJavaScript Error: " + evaluation + " - " + error.debugDescription)
@@ -106,11 +78,26 @@ extension SwiftJSBridge {
     public struct Handler {
         let name: String
         let closure: HandlerClosure
+        
+        public init(name: String, closure: HandlerClosure) {
+            self.name = name
+            self.closure = closure
+        }
     }
     
     public struct HandlerInvocation {
         let name: String
-        let data: AnyObject?
+        let data: String
+        
+        public init(name: String, data: String) {
+            self.name = name
+            self.data = data
+        }
+        
+        public init(name: String) {
+            self.name = name
+            self.data = ""
+        }
     }
 }
 

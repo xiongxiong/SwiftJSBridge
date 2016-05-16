@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		195A72C5766F31D06D9D0363 /* Pods_SwiftJSBridge_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8242E6454307197DB49AE78 /* Pods_SwiftJSBridge_Tests.framework */; };
 		1C5C0716EF7D77E5FA5D946F /* Pods_SwiftJSBridge_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76A5DECD13008D88C6C7865C /* Pods_SwiftJSBridge_Example.framework */; };
-		42529A3F1CDB33E600BC662B /* SwiftJSBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42529A3E1CDB33E600BC662B /* SwiftJSBridge.swift */; };
 		42C271A91CE3F28800AB0F62 /* JSModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42C271A81CE3F28800AB0F62 /* JSModel.swift */; };
 		42F822201CDC4BB600B7929A /* test.html in Resources */ = {isa = PBXBuildFile; fileRef = 42F8221F1CDC4BB600B7929A /* test.html */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
@@ -34,7 +33,6 @@
 		06DB21333FC8B32A31E6F086 /* Pods-SwiftJSBridge_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftJSBridge_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftJSBridge_Example/Pods-SwiftJSBridge_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		08CCB973A6E544A28E2F49A4 /* Pods-SwiftJSBridge_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftJSBridge_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftJSBridge_Tests/Pods-SwiftJSBridge_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		27BDCADAADAAFA8EEB8F5F41 /* SwiftJSBridge.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = SwiftJSBridge.podspec; path = ../SwiftJSBridge.podspec; sourceTree = "<group>"; };
-		42529A3E1CDB33E600BC662B /* SwiftJSBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftJSBridge.swift; sourceTree = "<group>"; };
 		42C271A81CE3F28800AB0F62 /* JSModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSModel.swift; sourceTree = "<group>"; };
 		42F8221F1CDC4BB600B7929A /* test.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = test.html; sourceTree = "<group>"; };
 		46E9F5ED7C68876DCDD138A1 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
-				42529A3E1CDB33E600BC662B /* SwiftJSBridge.swift */,
 			);
 			name = "Example for SwiftJSBridge";
 			path = SwiftJSBridge;
@@ -370,7 +367,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
-				42529A3F1CDB33E600BC662B /* SwiftJSBridge.swift in Sources */,
 				42C271A91CE3F28800AB0F62 /* JSModel.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);

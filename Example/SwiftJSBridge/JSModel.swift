@@ -11,15 +11,10 @@ import ObjectMapper
 
 class JSModel: Mappable {
 
-    var a: Int = 4
-    var b: Double = 3.56789
-    var c: Float = 1.0003
-    var d: String = "Hello World!"
-    var e: [String] = ["I am A.", "I am B"]
-    var f: [String: String] = ["message": "I am message", "method": "I am method."]
+    var message: String = ""
     
-    init() {
-        
+    init(message: String) {
+        self.message = message
     }
     
     required init?(_ map: Map) {
@@ -27,11 +22,6 @@ class JSModel: Mappable {
     }
     
     func mapping(map: Map) {
-        a <- map["a"]
-        b <- map["b"]
-        c <- map["c"]
-        d <- map["d"]
-        e <- map["e"]
-        f <- map["f"]
+        message <- map["message"]
     }
 }

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script>
+        	// Functions to call Swift Handlers.
+        	function callNoDataHandler() {
+        		webkit.messageHandlers.noDataHandler.postMessage('');
+        	}
+
+        	function callStringDataHandler() {
+        		var logData = 'JS says: Calling stringDataHandler.'
+                webkit.messageHandlers.stringDataHandler.postMessage(logData)
+        	}
+
+        	function callIntegerDataHandler() {
+        		var logData = 3
+                webkit.messageHandlers.integerDataHandler.postMessage(logData);
+        	}
+
+        	function callDoubleDataHandler() {
+        		var logData = 3.4533
+                webkit.messageHandlers.doubleDataHandler.postMessage(logData);
+        	}
+
+        	function callArrayDataHandler() {
+        		var logData = ["JS says: Calling arrayDataHandler.", "JS says: Calling arrayDataHandler. (2)"]
+                webkit.messageHandlers.arrayDataHandler.postMessage(logData);
+        	}
+
+        	function callDictionaryDataHandler() {
+                var logData = {'message' : 'JS says: Calling dictionaryDataHandler.'}
+                webkit.messageHandlers.dictionaryDataHandler.postMessage(logData);
+            }
+
+            function callCallBackToJSHandler() {
+            	var logData = {'message' : 'JS says: Calling callBackToJS.'}
+                webkit.messageHandlers.callBackToJS.postMessage(logData);
+            }
+
+            // Function to be called from Swift.
+            function swiftCallBackJSFunction(data) {
+                return data;
+            }
+
+            function swiftCallWithNoData() {
+            	// webkit.messageHandlers.handlerToPrintMessages.postMessage('Swift says: swiftCallWithNoData called.');
+                return 'Swift says: swiftCallWithNoData called.';
+            }
+
+            function swiftCallWithStringData(data) {
+                return data;
+            }
+
+            function swiftCallWithIntegerData(data) {
+                return Number(data);
+            }
+
+            function swiftCallWithDoubleData(data) {
+                return Number(data);
+            }
+
+            function swiftCallWithArrayData(data) {
+                return data;
+            }
+
+            function swiftCallWithDictionaryData(data) {
+                return data;
+            }
+
+        	callNoDataHandler();
+        	callStringDataHandler();
+        	callIntegerDataHandler();
+        	callDoubleDataHandler();
+        	callArrayDataHandler();
+        	callDictionaryDataHandler();
+        	callCallBackToJSHandler();
+      	</script>
+    </body>
+</html>

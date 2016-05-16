@@ -9,14 +9,13 @@
 import UIKit
 import WebKit
 import ObjectMapper
+import SwiftJSBridge
 
 typealias Handler = SwiftJSBridge.Handler
 typealias HandlerInvocation = SwiftJSBridge.HandlerInvocation
 
 class ViewController: UITableViewController {
 
-    private let testUrl = "https://dl.dropboxusercontent.com/u/64786881/JSSwiftBridge.html"
-    
     private var webView: WKWebView = WKWebView(frame: CGRectZero, configuration: WKWebViewConfiguration())
     private var bridge: SwiftJSBridge?
     private var messagesFromJS: Array<String> = Array<String>()
@@ -28,21 +27,9 @@ class ViewController: UITableViewController {
         webView.navigationDelegate = self
         bridge = SwiftJSBridge.bridge(webView: webView, delegate: self)
         
-        webView.loadRequest(NSURLRequest(URL: NSURL(string: testUrl)!))
-        
-//        let model = JSModel()
-//        let json = model.toJSON()
-//        print("json: \(json)\n\n")
-//        let strA = model.toJSONString()!
-//        print("strA: \(strA.debugDescription)\n\n")
-//        print("strA: \(strA)\n\n")
-//        do {
-//            let jsonStr = try NSJSONSerialization.dataWithJSONObject(json, options: NSJSONWritingOptions())
-//            let result = String(data: jsonStr, encoding: NSASCIIStringEncoding)!
-//            print("jsonStr: \(result)")
-//        } catch {
-//            print("SwiftJSBridge - dataToString : \(error)")
-//        }
+        let htmlPath = NSBundle.mainBundle().pathForResource("test", ofType: "html")!
+        let htmlStr = try! String(contentsOfFile: htmlPath, encoding: NSUTF8StringEncoding)
+        webView.loadHTMLString(htmlStr, baseURL: NSURL(fileURLWithPath: htmlPath))
     }
     
     override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -69,29 +56,32 @@ extension ViewController {
     
     func callJSHandlers() {
         weak var safeMe = self
-        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithNoData",data: nil)) { (data: AnyObject?) in
+        
+        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithNoData")) { (data: AnyObject?) in
             safeMe?.printMessage("js_callback -- 1 -- " + (data as! String))
         }
-        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithStringData",data: "Swift says: swiftCallWithStringData called.")) { (data: AnyObject?) in
+        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithStringData",data: "Swift says: swiftCallWithStringData called.".debugDescription)) { (data: AnyObject?) in
             safeMe?.printMessage("js_callback -- 2 -- " + (data as! String))
         }
-        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithIntegerData",data: 4)) { (data: AnyObject?) in
+        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithIntegerData",data: 4.description)) { (data: AnyObject?) in
             safeMe?.printMessage("js_callback -- 3 -- " + String(format: "Swift says: swiftCallWithIntegerData called: %i.", data as! Int))
         }
-        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithDoubleData",data: 8.32743)) { (data: AnyObject?) in
+        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithDoubleData",data: 8.32743.description)) { (data: AnyObject?) in
             safeMe?.printMessage("js_callback -- 4 -- " + String(format: "Swift says: swiftCallWithDoubleData called: %.9f.", data as! Double))
         }
-        let messages = ["Swift says: swiftCallWithArrayData called.", "Swift says: swiftCallWithArrayData called. (2)"]
-        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithArrayData",data: messages)) { (data: AnyObject?) in
+        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithArrayData",data: "[\"swift call with array data (1)\", \"swift call with array data (2)\"]")) { (data: AnyObject?) in
             let array = data as! [String]
             array.forEach({ (message) in
                 safeMe?.printMessage("js_callback -- 5 -- " + message)
             })
         }
-        let messageDict: [String : String] = ["message" : "Swift says: swiftCallWithDictionaryData called."]
-        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithDictionaryData",data: messageDict)) { (data: AnyObject?) in
+        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithDictionaryData",data: "{\"method\": \"Method_Start\", \"message\": \"swift call with dictionary\"}")) { (data: AnyObject?) in
             let dict = data as! Dictionary<String, String>
             safeMe?.printMessage("js_callback -- 6 -- " + dict["message"]!)
+        }
+        bridge?.callJSHandler(HandlerInvocation(name: "swiftCallWithDictionaryData",data: JSModel(message: "My JSModel").toJSONString()!)) { (data: AnyObject?) in
+            let dict = data as! Dictionary<String, String>
+            safeMe?.printMessage("js_callback -- 7 -- " + dict["message"]!)
         }
     }
 }
@@ -123,9 +113,9 @@ extension ViewController: SwiftJSBridgeDelegate {
             Handler(name: "callBackToJS", closure: { [unowned self] (data: AnyObject?) in
                 let dataDic = data as! Dictionary<String, String>
                 self.printMessage("7 -- " + dataDic["message"]!)
-                self.bridge?.callJSHandler(HandlerInvocation(name: "swiftCallBackJSFunction",data: dataDic), callback: { [unowned self] (data) in
+                self.bridge?.callJSHandler(HandlerInvocation(name: "swiftCallBackJSFunction",data: "{\"message\": \"callBackToJS_callback\"}"), callback: { [unowned self] (data) in
                     let dataDic = data as! Dictionary<String, String>
-                    self.printMessage(dataDic["message"]! + " -- callback")
+                    self.printMessage("7 -- " + dataDic["message"]! + " -- callback")
                 })
             }),
         ]
