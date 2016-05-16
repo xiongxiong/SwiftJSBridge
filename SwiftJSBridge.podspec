@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = "SwiftJSBridge"
   s.version          = "0.1.0"
-  s.summary          = "A easy-to-use ios bridge for sending messages between WKWebView(swift) & WebKit(javascript)."
+  s.summary          = "A easy-to-use ios bridge for sending messages between WKWebView (Swift) & WebKit (Javascript)."
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,9 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+SwiftJSBridge is a Swift interface for bridging between WKWebView (Swift) and WebKit (Javascript).
+
+SwiftJSBridge can be use to send message from Swift to Javascript, from Javascript to Swift or to receive messages in Swift from Javascript or in Javascript from Swift.
                        DESC
 
   s.homepage         = "https://github.com/xiongxiong/SwiftJSBridge"
